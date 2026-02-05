@@ -3,8 +3,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, Sun, Moon } from 'lucide-react';
 import Link from 'next/link';
-import TodoModalUI from '../todo-modal/todo-modal';
-import TodoTable from '../../todotable/page';
 
 interface Stats {
   total: number;
