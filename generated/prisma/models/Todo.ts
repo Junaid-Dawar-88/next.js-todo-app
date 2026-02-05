@@ -1068,6 +1068,7 @@ export type TodoCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * The data used to create many Todos.
    */
   data: Prisma.TodoCreateManyInput | Prisma.TodoCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1086,6 +1087,7 @@ export type TodoCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many Todos.
    */
   data: Prisma.TodoCreateManyInput | Prisma.TodoCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
