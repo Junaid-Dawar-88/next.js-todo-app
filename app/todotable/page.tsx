@@ -33,6 +33,7 @@ const TodoTable = () => {
     }
     fetchTodos()
   }, [])
+
   const filteredTodos = useMemo(() => {
     if (!todo) return []
     return todo.filter(
@@ -76,13 +77,6 @@ const TodoTable = () => {
 
   return (
     <>
-      <div className="w-full py-6 px-8 bg-gray-800 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <h1 className="text-3xl font-bold">Task Manager</h1>
-        <div className="h-15 w-15 flex items-center justify-center rounded-full bg-white text-black">
-          <h1 className="text-2xl font-semibold">TM</h1>
-        </div>
-      </div>
-
       <SearchTodo
         search={search}
         setSearch={setSearch}
@@ -94,15 +88,13 @@ const TodoTable = () => {
 
       <div className="p-6 mt-5">
         <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
-          
+          {/* Header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
             <div>
               <h2 className="text-2xl font-bold text-slate-800">
                 Total Task: {filteredTodos.length}
               </h2>
-              <p className="text-sm text-slate-500">
-                Track and manage your daily tasks
-              </p>
+              <p className="text-sm text-slate-500">Track and manage your daily tasks</p>
             </div>
 
             <TodoModalUI
@@ -113,7 +105,7 @@ const TodoTable = () => {
             />
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto hidden md:block">
             <table className="w-full text-left">
               <thead className="bg-slate-50 text-slate-600 text-sm uppercase tracking-wider">
                 <tr>
@@ -131,16 +123,14 @@ const TodoTable = () => {
                     key={t.id}
                     draggable
                     onDragStart={() => handleDragStart(index)}
-                    onDragOver={(e) => e.preventDefault()}
+                    onDragOver={e => e.preventDefault()}
                     onDrop={() => handleDrop(index)}
                     className="hover:bg-slate-50 transition cursor-move"
                     onClick={() => setSelectedTodo(t)}
                   >
                     <td className="px-6 py-4 max-w-[350px]">
                       <p className="font-semibold text-slate-800">{t.title}</p>
-                      <p className="text-sm text-slate-500 line-clamp-2">
-                        {t.description}
-                      </p>
+                      <p className="text-sm text-slate-500 line-clamp-2">{t.description}</p>
                     </td>
 
                     <td className="px-6 py-4">
@@ -183,6 +173,52 @@ const TodoTable = () => {
               </tbody>
             </table>
           </div>
+<div className="md:hidden px-4 py-3 space-y-4">
+  {filteredTodos.map((t, index) => (
+    <div
+      key={t.id}
+      draggable
+      onDragStart={() => handleDragStart(index)}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={() => handleDrop(index)}
+      className="bg-slate-50 p-4 rounded-2xl shadow cursor-move"
+      onClick={() => setSelectedTodo(t)}
+    >
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="font-semibold text-lg text-slate-800">{t.title}</h3>
+        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
+          {t.status}
+        </span>
+      </div>
+      <p className="text-slate-600 mb-2 line-clamp-3">{t.description}</p>
+      <div className="flex justify-between items-center">
+        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-slate-200 text-slate-700">
+          {t.priority}
+        </span>
+        <div className="space-x-2">
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setUpdateTodo(t)
+            }}
+            className="px-3 py-1.5 text-xs rounded-lg border border-slate-300 hover:bg-slate-100 transition"
+          >
+            Edit
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              handleDelete(t.id)
+            }}
+            className="px-3 py-1.5 text-xs rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
         </div>
 
         {selectedTodo && (
